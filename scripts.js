@@ -1,56 +1,60 @@
-// JavaScript for responsiveness and interactivity
+// scripts.js
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Responsive Navigation Toggle
-    const nav = document.querySelector("nav");
-    const toggleButton = document.createElement("button");
-    toggleButton.textContent = "Menu";
-    toggleButton.classList.add("nav-toggle");
-    nav.parentNode.insertBefore(toggleButton, nav);
-
-    toggleButton.addEventListener("click", () => {
-        nav.classList.toggle("visible");
-    });
-
-    // Adjust nav visibility based on screen size
-    const adjustNavVisibility = () => {
-        if (window.innerWidth > 768) {
-            nav.classList.add("visible");
-        } else {
-            nav.classList.remove("visible");
-        }
-    };
-
-    window.addEventListener("resize", adjustNavVisibility);
-    adjustNavVisibility();
-
-    // Form validation for Contact Us form
-    const contactForm = document.getElementById("contact-form");
-    if (contactForm) {
-        contactForm.addEventListener("submit", (event) => {
-            const name = document.getElementById("name").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const message = document.getElementById("message").value.trim();
-
-            if (!name || !email || !message) {
-                event.preventDefault();
-                alert("All fields are required. Please fill out the form completely.");
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                event.preventDefault();
-                alert("Please enter a valid email address.");
-            }
+// Smooth Scroll for navigation links
+document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
         });
+    });
+});
+
+// Form Validation
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent form from submitting immediately
+
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let message = document.getElementById('message').value;
+
+    // Simple validation
+    if (name === '' || email === '' || message === '') {
+        alert('All fields are required.');
+        return;
     }
 
-    // Smooth scrolling for internal links
-    document.querySelectorAll("a[href^='#']").forEach(anchor => {
-        anchor.addEventListener("click", function (event) {
-            event.preventDefault();
-            const targetId = this.getAttribute("href").substring(1);
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: "smooth" });
-            }
-        });
+    // If form is valid, show a confirmation message
+    alert('Thank you for contacting us, ' + name + '. We will get back to you shortly.');
+    this.reset(); // Reset the form after submission
+});
+
+// Confirm booking functionality
+document.querySelectorAll('.button').forEach(button => {
+    button.addEventListener('click', function () {
+        let vehicle = document.querySelector('input[name="vehicle"]:checked');
+        let payment = document.querySelector('input[name="payment"]:checked');
+
+        if (!vehicle || !payment) {
+            alert('Please select both a vehicle and a payment method.');
+            return;
+        }
+
+        alert('Booking confirmed! You have selected: ' + vehicle.value + ' and ' + payment.value);
+    });
+});
+
+// Dynamic Content Display for Service Sections
+const serviceSections = document.querySelectorAll('.service');
+
+serviceSections.forEach(section => {
+    section.addEventListener('mouseenter', function () {
+        this.style.transform = 'scale(1.05)';
+        this.style.transition = 'transform 0.3s ease-in-out';
+    });
+
+    section.addEventListener('mouseleave', function () {
+        this.style.transform = 'scale(1)';
     });
 });
