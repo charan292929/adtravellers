@@ -58,3 +58,30 @@ serviceSections.forEach(section => {
         this.style.transform = 'scale(1)';
     });
 });
+// Payment Form Validation
+document.getElementById('payment-form').addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    const name = document.getElementById('name').value;
+    const cardNumber = document.getElementById('card-number').value;
+    const expiry = document.getElementById('expiry').value;
+    const cvv = document.getElementById('cvv').value;
+
+    if (!name || !cardNumber || !expiry || !cvv) {
+        alert('Please fill out all fields.');
+        return;
+    }
+
+    if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+        alert('Please enter a valid 16-digit card number.');
+        return;
+    }
+
+    if (cvv.length !== 3 || isNaN(cvv)) {
+        alert('Please enter a valid 3-digit CVV.');
+        return;
+    }
+
+    alert('Payment Successful! Thank you for using Ad Traveller.');
+    this.reset(); // Reset the form after submission
+});
